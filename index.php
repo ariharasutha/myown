@@ -1,92 +1,72 @@
-<?php include "db.php";?>
-<!DOCTYPE html>
-<link rel="stylesheet" href="style.css">
-<body>
-    <h1>REGISTRATION FORM</h1>
+<?php
+include "db.php";
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+?>
 
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register</title>
+</head>
+<body>
+
+<h2>Register Form</h2>
+
 <form method="POST">
 
-<input type="text" name="name" id="name"placeholder="Enter Name" require>
+    <input type="text" name="name" placeholder="Enter Name"><br><br>
 
-<br>
+    <input type="number" name="age" placeholder="Enter Age"><br><br>
 
-<input type="number" name="age" id="age" placeholder="Enter Age">
-<br>
+    <input type="number" name="mobileno" placeholder="Enter Mobile"><br><br>
 
-<input type="number" name="mobileno" id="mobileno" placeholder="Enter Mobile">
+    <input type="email" name="email" placeholder="Enter Email"><br><br>
 
-<br>
+    <input type="password" name="password" placeholder="Enter Password"><br><br>
 
-<input type="email" name="email" id="email" placeholder="Enter Email">
-
-<br>
-
-<input type="password" name="password" id="password" placeholder="Enter Password">
-
-<br>
-
-<button type="submit" name="submit" id="btn1">Submit</button>
-<div id="result"></div>
+    <button type="submit" name="submit">Register</button>
 
 </form>
+
 <?php
+
 if(isset($_POST['submit'])){
 
-$name=$_POST['name'];
-$age=$_POST['age'];
-$mobileno=$_POST['mobileno'];
-$email=$_POST['email'];
-$password=$_POST['password'];
+    $name = $_POST['name'];
+    $age = $_POST['age'];
+    $mobileno = $_POST['mobileno'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
 
-$sql="INSERT INTO user(name,age,mobileno,email,password) VALUES ('$name','$age','$mobileno','$email','$password')";
+    // Validation
+    if(
+        empty($name) ||
+        empty($age) ||
+        empty($mobileno) ||
+        empty($email) ||
+        empty($password)
+    ){
+        echo "<script>alert('Please fill all fields')</script>";
+    }
+
+    else{
+$sql = "INSERT INTO user(name,age,mobileno,email,password)
+VALUES('$name','$age','$mobileno','$email','$password')";
 
 if($conn->query($sql)){
-
-header("Location:login.php");
-exit();
-
-}else{
-
-echo "Error";
-
+    echo "Registration Success";
+}
+else{
+    die("SQL Error: " . $conn->error);
+}
+    }
 }
 
-}
 ?>
-<script>
 
-$("#btn1").click(function(){
+<a href="login.php">Login</a>
 
-let name=$("#name").val();
-let age=$("#age").val();
-let mobileno=$("#mobileno").val();
-let email=$("#email").val();
-let password=$("#password").val();
-
-$.ajax({
-
-url:"index.php",
-
-type:"POST",
-
-data:{
-    name:name,
-    age:age,
-    mobileno:mobileno,
-    email:email,
-    password:password
-},
-
-success:function(data){
-
-$("#result").html(data);
-
-}
-
-});
-
-});
-</script>
 </body>
 </html>
