@@ -1,18 +1,22 @@
 <?php
+
+session_start();
+
 include "db.php";
 
-$id=isset($_GET['id']) ? intval($_GET['id']) : 0;
+$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
-$sql="DELETE FROM user WHERE id=$id";
+$sql = "DELETE FROM user WHERE id=$id";
 
 if($conn->query($sql)){
 
-header("Location:view.php");
-exit();
+    header("Location:view.php");
+    exit();
 
-}else{
+}
+else{
 
-echo "Error ".$conn->error;
+    echo "Error : ".$conn->error;
 
 }
 
