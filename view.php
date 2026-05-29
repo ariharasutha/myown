@@ -1,19 +1,30 @@
-<?php include "db.php";?>
-<table border="1">
+<?php
+session_start();
+
+if(!isset($_SESSION['user'])){
+    header("Location:login.php");
+    exit();
+}
+
+include "db.php";
+?>
+
+<table border="1" cellpadding="10">
+
 <tr>
-<th>Id</th>
+<th>ID</th>
 <th>Name</th>
 <th>Age</th>
 <th>Mobile</th>
 <th>Email</th>
-<th>Password</th>
 <th>Action</th>
 </tr>
 
 <?php
-$result=$conn->query("SELECT*FROM user");
 
-while($row=$result->fetch_assoc()){
+$result = $conn->query("SELECT * FROM user");
+
+while($row = $result->fetch_assoc()){
 
 ?>
 
@@ -29,8 +40,6 @@ while($row=$result->fetch_assoc()){
 
 <td><?php echo $row['email']; ?></td>
 
-<td><?php echo $row['password']; ?></td>
-
 <td>
 
 <a href="edit.php?id=<?php echo $row['id']; ?>">Edit</a>
@@ -41,10 +50,10 @@ while($row=$result->fetch_assoc()){
 
 </tr>
 
-<?php } 
-?>
+<?php } ?>
 
 </table>
-<a href="index.php">user</a>
-</body>
-</html>
+
+<br>
+
+<a href="logout.php">Logout</a>
